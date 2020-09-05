@@ -5,15 +5,17 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
     private val usd_to_eu_rate = 0.7f
-    private var dollarText = ""
-    private var result: MutableLiveData<Float> = MutableLiveData()
+    public val dollarValue: MutableLiveData<String> = MutableLiveData()
+    var result: MutableLiveData<Float> = MutableLiveData()
 
-    fun setAmount(value: String){
-        this.dollarText = value
-        result.value = value.toFloat() * usd_to_eu_rate
-    }
+    fun convertValue(){
+        dollarValue.let {
+            if(!it.value.equals("")){
+                result.value= it.value?.toFloat()?.times(usd_to_eu_rate)
+            } else {
+                result.value = 0f
+            }
 
-    fun getResult(): MutableLiveData<Float> {
-        return result
+        }
     }
 }
